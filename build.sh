@@ -1,1 +1,1 @@
-exec make
+exec make -j2
