@@ -4,8 +4,8 @@ Advanced commands to extend SH/Bash shell scripting into a more powerful languag
 These commands are very fast, and simply replace really advanced, ugly, and errorprone chaining of commands with simple keywords that read easily.
 
 
-Testing
-=======
+Conditional Evaluation
+======================
 
 The following commands add more advanced testing facilities, and are expected to be use in conditionals (if).
 
