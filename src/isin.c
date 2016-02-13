@@ -50,6 +50,13 @@
     #define PROG_NAME_STR "notin"
 #endif
 
+#ifndef CASE_INSENSITIVE
+    #define my_strcmp strcmp
+#else
+    #define my_strcmp strcasecmp
+#endif
+
+
 
 #define EXIT_ERROR -1
 
@@ -117,7 +124,7 @@ int main(int argc, char* argv[])
        
     for(i=1; i < argc; i++) {
         #ifdef PROG_ISIN
-        if ( strcmp(startPtr, argv[i]) == 0 ) {
+        if ( my_strcmp(startPtr, argv[i]) == 0 ) {
 
             /* Found our match! */
 
@@ -125,7 +132,7 @@ int main(int argc, char* argv[])
             return 0;
         }
         #else
-        if ( strcmp(startPtr, argv[i]) == 0 ) {
+        if ( my_strcmp(startPtr, argv[i]) == 0 ) {
 
             /* Found a match, return false! */
 

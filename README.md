@@ -22,6 +22,9 @@ The following commands add more advanced testing facilities, and are expected to
 
 The above example script checks if any of the arguments ($@) was "--help".
 
+**isin\_nocase**
+
+  Same as isin, but case insensitive.
 
 **notin**
 
@@ -30,6 +33,10 @@ The above example script checks if any of the arguments ($@) was "--help".
 	(echo "error" | notin $RESULTS1 $RESULTS2) && doSuccess;
 
 The above script checks if the word "error" occurs in either of the strings $RESULTS1 or $RESULTS2. If it does not, "doSuccess" is called.
+
+**notin\_nocase**
+
+  Same as notin, but case insensitive..
 
 
 Performance
