@@ -61,3 +61,38 @@ Here is a benchmark on an unloaded system, showing 42x+ (.001s is rounded up) sp
 	sys     0m0.013s
 	Result: 0
 
+
+Other Productivity Tools
+========================
+
+Here are links to other tools I use daily for advanced shell scripting and direct problem solving:
+
+
+**setutils** - Set operations using 2+ files (difference, intersection, union)
+
+https://github.com/kata198/setutils
+
+
+**popLines** - Pops lines from files; makes simple the art of using files as queues.
+
+https://github.com/kata198/popLines
+
+
+**findProcessesUsing** - Scans all running processes for a mapping of a shared object (library), or a specific file, or a given directory or anything beneath it
+
+https://github.com/kata198/findProcessesUsing
+
+
+**myps2** - Quick commands to filter processes and pids without chaining a ton of greps/awks
+
+https://github.com/kata198/myps2
+
+
+**bash-resume** - Simple pure-shell extension which can support tracking command success, and allows you to resume a script that failed at the failing point. Kind of like a Makefile for general bash (or most /bin/sh implementors)
+
+https://github.com/kata198/bash-resume
+
+
+**remote\_copy\_and\_execute** - Copies-and-executes a provided script and arguments to a list of hosts. Can do in serial, in parallel, and many other options.
+
+https://github.com/kata198/remote_copy_and_execute
