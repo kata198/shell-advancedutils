@@ -1,7 +1,10 @@
-CFLAGS ?= -O2
+CFLAGS ?= -O3 -ffast-math
 CFLAGS := ${CFLAGS} -Wall -pedantic
 CC ?= gcc
 LDFLAGS ?=
+HOME ?= ${HOME}
+PREFIX ?= /usr
+
 
 EXECUTABLES = \
 	bin/isin \
@@ -11,6 +14,10 @@ all: ${EXECUTABLES}
 	
 clean:
 	rm -f bin/* objects/*
+
+install: ${EXECUTABLES}
+	mkdir -p ${PREFIX}/bin
+	install -m 775 ${EXECUTABLES} -t ${PREFIX}/bin
 
 bin/isin: objects/isin.o
 	gcc ${LDFLAGS} objects/isin.o -o bin/isin
