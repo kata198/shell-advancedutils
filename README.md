@@ -93,6 +93,12 @@ https://github.com/kata198/myps2
 https://github.com/kata198/bash-resume
 
 
+
+**disttask** - Tool to take advantage of multiprocessing with existing tasks. A Process job queue.
+
+https://github.com/kata198/disttask
+
+
 **remote\_copy\_and\_execute** - Copies-and-executes a provided script and arguments to a list of hosts. Can do in serial, in parallel, and many other options.
 
 https://github.com/kata198/remote_copy_and_execute
