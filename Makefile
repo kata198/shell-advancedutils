@@ -4,8 +4,10 @@ CC ?= gcc
 LDFLAGS ?= -O1 -s
 HOME ?= ${HOME}
 PREFIX ?= /usr
+ETCDIR ?= /etc
 DESTDIR ?= 
 BINDIR = "${DESTDIR}${PREFIX}/bin"
+PROFILE_DIR = "${DESTDIR}${ETCDIR}/profile.d"
 
 
 EXECUTABLES = \
@@ -26,6 +28,8 @@ STANDALONES = \
 	utils/sortByCol \
 	utils/splitContains
 
+PROFILE_SCRIPTS=utils/sau-activate.sh
+
 all: ${EXECUTABLES}
 	@ echo -e "\n\033[1m Build completed! Run ./install.sh or 'make install' to install into  "'$$'"PREFIX/bin\033[0m\n\n"
 	
@@ -36,13 +40,18 @@ clean:
 install: ${EXECUTABLES}
 	@ echo -e "\n\033[0m\033[4mInstalling into ${BINDIR}:\033[0m\n"
 	@ echo -e "\t\033[1;71m`echo ${EXECUTABLES} ${STANDALONES} | sed 's/ /\n\t/g'`\n\033[0m"
-	mkdir -p ${BINDIR}
+	@ mkdir -p ${BINDIR}
 	@ printf "\033[91m" >&2
 	@ install -m 775 ${EXECUTABLES} ${STANDALONES} -t ${BINDIR} && \
 		 (echo -e "\n\n\033[0m\033[1mExecutables have been installed into ${BINDIR}. Ensure that location is in your PATH, and you can use them"'!' >&2) \
 	   || \
 		echo -e "\n\033[1mCould not install to ${BINDIR}. Please set "'$$'"DESTDIR or "'$$'"PREFIX to an area you can write (e.x. make install PREFIX="'$$'"HOME), or run this as root.\033[0m \033[91m" >&2
-
+	@ echo -e "\n\033[0m\033[4mInstalling ${PROFILE_SCRIPTS} into ${PROFILE_DIR}\033[0m\n"
+	@ mkdir -p ${PROFILE_DIR}
+	@ install -m 775 ${PROFILE_SCRIPTS} -t ${PROFILE_DIR} && \
+		 (echo -e "\n\n\033[0m\033[1mProfile script has been installed into ${PROFILE_DIR}. Source this file to use advanceds shell utils"'!' >&2) \
+	   || \
+		echo -e "\n\033[1mCould not install to ${PROFILE_DIR}. Please try again as root, otherwise you must explicitly source ${BINDIR}/`basename ${PROFILE_SCRIPTS}` for some advanced shell util functions. \033[0m \033[91m" >&2
 	@ echo -e "\033[0m" >&2
 
 bin/isin: objects/isin.o
