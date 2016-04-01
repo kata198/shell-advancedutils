@@ -40,7 +40,7 @@ install: ${EXECUTABLES}
 	@ install -m 775 ${EXECUTABLES} ${STANDALONES} -t ${BINDIR} && \
 		 (echo -e "\n\n\033[0m\033[1mExecutables have been installed into ${BINDIR}. Ensure that location is in your PATH, and you can use them"'!' >&2) \
 	   || \
-		echo -e "\n\033[1mCould not install to ${BINDIR}. Please set "'$$'"DESTDIR or "'$$'"PREFIX to an area you can write (e.x. make install PREFIX=$$HOME), or run this as root.\033[0m \033[91m" >&2
+		echo -e "\n\033[1mCould not install to ${BINDIR}. Please set "'$$'"DESTDIR or "'$$'"PREFIX to an area you can write (e.x. make install PREFIX="'$$'"HOME), or run this as root.\033[0m \033[91m" >&2
 
 	@ echo -e "\033[0m" >&2
 
