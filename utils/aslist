@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Converts the arguments to a space-separated list.
+
+if [ $# -gt 0 ]; then
+    echo $@;
+else
+    echo `readall`
+fi
+

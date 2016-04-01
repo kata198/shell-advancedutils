@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+
+# vim: set ts=4 sw=4 expandtab:
+
+import sys
+
+
+def printUsage():
+    sys.stderr.write('''Usage: splitContains (Options) [needle] [splitBy] [haystack]
+  Splits the given "haystack" by "splitBy", and checks if one of the elements is "needle."
+
+Status code 0 is returned when found, 1 when not found, unless --print is specified, in which case "true" is printed when found and "false" when not.
+
+    Options:
+
+      --%print         Print "true"/"false" instead of using exit code
+
+      --%nocase        Ignore case in comparison
+''')
+
+if __name__ == '__main__':
+    if '--%help' in sys.argv:
+        printUsage()
+        sys.exit(0)
+
+    if len(sys.argv) < 4:
+        sys.stderr.write('Not enough arguments.\n')
+        printUsage()
+        sys.exit(1)
+
+    args = sys.argv[1:]
+    if '--%print' in args:
+        retStatusCode = False
+        args.remove('--%print')
+    else:
+        retStatusCode = True
+
+    if '--%nocase' in args:
+        args.remove('--%nocase')
+        doLower = True
+    else:
+        doLower = False
+
+    if len(args) < 3:
+        sys.stderr.write('Not enough arguments.\n')
+        printUsage()
+        sys.exit(1)
+
+    needle = args[0]
+    splitBy = args[1]
+    haystack = splitBy.join(args[2:])
+
+    if doLower is True:
+        needle = needle.lower()
+        fmtFunc = lambda x : x.lower()
+    else:
+        fmtFunc = lambda x : x
+
+    splitHaystack = [fmtFunc(x) for x in haystack.split(splitBy) if x]
+
+    if needle in splitHaystack:
+        if retStatusCode is True:
+            sys.exit(0)
+        else:
+            # Print status
+            sys.stdout.write('true\n')
+            sys.exit(0)
+
+    else:
+        if retStatusCode is True:
+            # 1 is fail in shell
+            sys.exit(1)
+        else:
+            # Print Status
+            sys.stdout.write('false\n')
+            sys.exit(0)
+

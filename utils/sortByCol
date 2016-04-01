@@ -1,0 +1,92 @@
+#!/usr/bin/env python
+
+#vim: set ts=4 sw=4 expandtab :
+
+import sys
+from operator import itemgetter
+
+def printUsage():
+    sys.stderr.write('Usage: sortByCol (Options) [colNum]\n  Sorts data fed in on stdin by the given column.\nColumn is 1-origin\n')
+    sys.stderr.write('''
+    Options:
+
+       --int   - Sort given column as if integers. Default is string.
+       --float - Sort given column as if floats. Default is string.
+       --str   - Sort given column as if strings. Default.
+
+       -r or --reverse - Reverse list after sorting (high->low, default is low->high)
+
+       --split-by=X - Split by the provided token. Default is to split all whitespace out.
+''')
+       
+SORT_TYPE_STR = 1
+SORT_TYPE_INT = 2
+SORT_TYPE_FLOAT = 3
+
+if __name__ == '__main__':
+
+    if len(sys.argv) == 1 or '--help' in sys.argv:
+        printUsage()
+        sys.exit(1)
+
+    sortType = SORT_TYPE_STR
+    args = sys.argv[1:]
+    args2 = []
+    splitBy = None
+    sortCol = None
+    isReverse = False
+    for arg in args:
+        if arg == '--int':
+            sortType = SORT_TYPE_INT
+        elif arg == '--float':
+            sortType = SORT_TYPE_FLOAT
+        elif arg == '--str':
+            sortType = SORT_TYPE_STR
+        elif arg.startswith('--split-by='):
+            splitBy = arg[len('--split-by='):]
+        elif arg in ('-r', '--reverse'):
+            isReverse = True
+        else:
+            if sortCol is not None:
+                sys.stderr.write('Invalid argument: %s\n\n' %(arg,))
+                printUsage()
+                sys.exit(1)
+            sortCol = arg
+            if not sortCol.isdigit():
+                sys.stderr.write('Sort column "%s" is not an integer.\n\n' %(arg,))
+                printUsage()
+                sys.exit(1)
+            sortCol = int(sortCol)
+            if sortCol <= 0:
+                sys.stderr.write('Sort column "%d" must be an integer >= 1. Column is one-origin.\n' %(sortCol,))
+
+
+    if splitBy is None:
+        splitLine = lambda line : line.split()
+    else:
+        splitLine = lambda line : line.split(splitBy)
+
+
+    sortColIdx = sortCol - 1
+
+    contents = sys.stdin.read()
+    origLines = [line for line in contents.split('\n') if line]
+    linesSplit = [splitLine(line) for line in origLines]
+    if sortType == SORT_TYPE_INT:
+        for i in range(len(linesSplit)):
+            linesSplit[i][sortColIdx] = int(linesSplit[i][sortColIdx])
+    elif sortType == SORT_TYPE_FLOAT:
+        for i in range(len(linesSplit)):
+            linesSplit[i][sortColIdx] = float(linesSplit[i][sortColIdx])
+
+    sortedList = sorted(linesSplit, key=itemgetter(sortColIdx))
+    if sortType != SORT_TYPE_STR:
+        for i in range(len(sortedList)):
+            sortedList[i][sortColIdx] = str(sortedList[i][sortColIdx])
+
+    if isReverse:
+        sortedList.reverse()
+
+    for i in range(len(sortedList)):
+        origLine = origLines[linesSplit.index(sortedList[i])]
+        sys.stdout.write(origLine + '\n')

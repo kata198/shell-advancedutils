@@ -4,14 +4,27 @@ CC ?= gcc
 LDFLAGS ?= -O1 -s
 HOME ?= ${HOME}
 PREFIX ?= /usr
-DESTDIR ?= "${PREFIX}/bin"
+DESTDIR ?= 
+BINDIR = "${DESTDIR}${PREFIX}/bin"
 
 
 EXECUTABLES = \
 	bin/isin \
 	bin/isin_nocase \
 	bin/notin \
-	bin/notin_nocase 
+	bin/notin_nocase
+
+STANDALONES = \
+	utils/aslist \
+	utils/bgtask \
+	utils/gtmp \
+	utils/nmtmp \
+	utils/noecho \
+	utils/prompt \
+	utils/readall \
+	utils/sau-activate.sh \
+	utils/sortByCol \
+	utils/splitContains
 
 all: ${EXECUTABLES}
 	@ echo -e "\n\033[1m Build completed! Run ./install.sh or 'make install' to install into  "'$$'"PREFIX/bin\033[0m\n\n"
@@ -21,13 +34,13 @@ clean:
 
 
 install: ${EXECUTABLES}
-	@ echo -e "\n\033[0m\033[4mInstalling into ${DESTDIR}\033[0m\n"
-	mkdir -p ${DESTDIR}
+	@ echo -e "\n\033[0m\033[4mInstalling into ${BINDIR}\033[0m\n"
+	mkdir -p ${BINDIR}
 	@ echo -e "\033[91m" >&2
-	@ install -m 775 ${EXECUTABLES} -t ${DESTDIR} && \
-		 (echo -e "\n\n\033[0m\033[1mExecutables have been installed into ${DESTDIR}. Ensure that location is in your PATH, and you can use them"'!' >&2) \
+	@ install -m 775 ${EXECUTABLES} ${STANDALONES} -t ${BINDIR} && \
+		 (echo -e "\n\n\033[0m\033[1mExecutables have been installed into ${BINDIR}. Ensure that location is in your PATH, and you can use them"'!' >&2) \
 	   || \
-		echo -e "\n\033[1mCould not install to ${DESTDIR}. Please export "'$$'"DESTDIR or "'$$'"PREFIX to an area you can write, or run this as root.\033[0m \033[91m" >&2
+		echo -e "\n\033[1mCould not install to ${BINDIR}. Please set "'$$'"DESTDIR or "'$$'"PREFIX to an area you can write (e.x. make install PREFIX=$$HOME), or run this as root.\033[0m \033[91m" >&2
 
 	@ echo -e "\033[0m" >&2
 

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# nmtmp - name a temporary file. Arg 1 is unique name part
+MYTMPDIR="/tmp/shnmtmp-`whoami`";
+mkdir -p $MYTMPDIR
+
+DEFAULT_TIMEOUT=60
+
+if [ -z "$1" ];
+then
+	echo -e "Usage: nmtmp [name] (optional: timeout)\n  Generates a timed temp file that is referenced by 'name'. If timeout is provided, will be automatically removed after that timeout, otherwise default $DEFAULT_TIMEOUT seconds." >&2
+	echo -e "\nUse with gtmp to get the name.\nExample: set_difference seta setb > \`nmtmp setres\`; set_intersect \`gtmp setres\` set3 > seta"
+	exit 1
+fi
+NAME="$1"
+
+if [ -z  "$2"  ];
+then 
+	TIMEOUT=$DEFAULT_TIMEOUT
+else
+	TIMEOUT=$2
+fi
+TMP_NAM=$(mktemp  $MYTMPDIR/.stmp-${NAME}-XXX)
+(sleep $TIMEOUT && rm -f $TMP_NAM) >/dev/null  2>/dev/null &
+echo $TMP_NAM
+

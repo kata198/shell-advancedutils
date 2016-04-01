@@ -4,5 +4,6 @@ if [ -z "$PREFIX" ]; then
         PREFIX="/usr"
     elif [ -n "$HOME" ]; then
         PREFIX="$HOME"
-    else
-exec make install
+    fi
+fi
+exec make install PREFIX=$PREFIX

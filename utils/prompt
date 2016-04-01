@@ -1,0 +1,20 @@
+#!/bin/bash
+
+MSG="$1"
+shift
+if [ $# -eq 0 ];
+then
+	printf "$MSG" >&2
+	read x
+	printf "$x"
+else
+	unset x
+	printf "$MSG" >&2
+	read x
+	while echo "$x" | notin "$@";
+	do
+		printf "$MSG" >&2
+		read x
+	done
+	printf "$x"
+fi 
