@@ -34,9 +34,10 @@ clean:
 
 
 install: ${EXECUTABLES}
-	@ echo -e "\n\033[0m\033[4mInstalling into ${BINDIR}\033[0m\n"
+	@ echo -e "\n\033[0m\033[4mInstalling into ${BINDIR}:\033[0m\n"
+	@ echo -e "\t\033[1;71m`echo ${EXECUTABLES} ${STANDALONES} | sed 's/ /\n\t/g'`\n\033[0m"
 	mkdir -p ${BINDIR}
-	@ echo -e "\033[91m" >&2
+	@ printf "\033[91m" >&2
 	@ install -m 775 ${EXECUTABLES} ${STANDALONES} -t ${BINDIR} && \
 		 (echo -e "\n\n\033[0m\033[1mExecutables have been installed into ${BINDIR}. Ensure that location is in your PATH, and you can use them"'!' >&2) \
 	   || \
