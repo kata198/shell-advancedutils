@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+def printUsage():
+    sys.stderr.write('Usage: isempty (--print) [file]\n Check if given file is empty, return 0 if it is, otherwise non-zero.\nIf --print is specified, "true" or "false" or "missing" will be printed and always return 0.\n')
+    sys.stderr.write('If file is absent, it will return 0 (true), or if --print is specified, it will return "missing"\n')
+    sys.stderr.write('If a file contains one newline, or one CR NL, it will be considered empty.\n')
+
+def writeflush(msg):
+    sys.stdout.write(msg)
+    sys.stdout.flush()
+
+if __name__ == '__main__':
+    args = sys.argv[1:]
+    if '--print' in args:
+        args.remove('--print')
+        isPrint = True
+    else:
+        isPrint = False
+
+    if len(args) != 1 or args[0] == '--help':
+        printUsage()
+        sys.exit(1)
+        
+    fname = args[0]
+
+    if not os.path.isfile(fname):
+        if isPrint:
+            writeflush('missing')
+        sys.exit(0)
+
+    isEmpty = True
+
+    foundCr = False
+    foundNewline = False
+   
+    with open(fname, 'rb') as f:
+        while True:
+            x = f.read(1)
+            if x == b'':
+                # End of file
+                break
+            if x == b'\r':
+                if foundCr is True or foundNewline is True:
+                    isEmpty = False
+                    break
+                foundCr = True
+            elif x == b'\n':
+                if foundNewline is True:
+                    isEmpty = False
+                    break
+                foundNewline = True
+            else:
+                isEmpty = False
+                break
+        
+    if isEmpty is False:
+        if isPrint:
+            writeflush('false')
+            sys.exit(0)
+        else:
+            sys.exit(1)
+    else:
+        if isPrint:
+            writeflush('true')
+
+        sys.exit(0)
+            
