@@ -1,0 +1,76 @@
+#!/usr/bin/env python3 -u
+
+import sys
+
+def printUsage():
+    sys.stderr.write('''Usage: cout [output file]
+   cout: Collate before OUTput
+ Buffers input on stdin, and writes to stream when stdin is closed.
+
+  Options:
+
+    -e or --echo        echo output to stdout, line-by-line.
+    -a or --append      Append output instead of overwriting
+
+Use this to perform otherwise line-by-line operations inline.
+e.x. sort fname | cout fname # Sort the file "fname"
+''')
+
+
+if __name__ == '__main__':
+
+    isEcho = False
+    writeMode = 'wb'
+
+    fname = None
+
+    argsOrig = sys.argv[1:]
+    args = []
+
+    for arg in argsOrig:
+        if arg in ('-e', '--echo'):
+            isEcho = True
+        elif arg == '--help':
+            printUsage()
+            sys.exit(1)
+        elif arg in ('-a', '--append'):
+            writeMode = 'ab'
+        else:
+            args.append(arg)
+
+    if len(args) != 1:
+        if len(args) == 0:
+            sys.stderr.write('cout: Missing output filename. Use --help for usage.\n')
+        elif len(args) > 1:
+            sys.stderr.write('cout: Too many arguments. Use --help for usage.\n')
+        sys.exit(2)
+            
+    fname = args[0]
+
+    try:
+        readline = sys.stdin.buffer.readline
+    except:
+        readline = sys.stdin.readline
+
+    if isEcho is True:
+        try:
+            echo = sys.stdout.buffer.write
+        except:
+            echo = sys.stdout.write
+
+    lines = []
+    while True:
+        try:
+            line = readline()
+        except Exception:
+            break
+        if line == b'':
+            break
+        lines.append(line)
+        if isEcho is True:
+            echo(line)
+            sys.stdout.flush()
+
+    
+    with open(fname, writeMode) as f:
+        f.write(b''.join(lines))
