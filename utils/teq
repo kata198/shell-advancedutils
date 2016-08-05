@@ -1,0 +1,10 @@
+#!/bin/bash
+#  teq - "te QUIET" - Performs a given test and returns 0 if true or non-zero otherwise.
+
+if [ $@ ];
+then
+    exit 0
+else
+    RET=$?
+    exit ${RET}
+fi

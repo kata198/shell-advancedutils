@@ -1,0 +1,12 @@
+#!/bin/bash
+#  Performs a compariso expression and echos "true" / returns 0, or echos "false" and returns nonzero
+
+if [ $@ ];
+then
+    echo "true"
+    exit 0
+else
+    RET=$?
+    echo "false"
+    exit ${RET}
+fi
