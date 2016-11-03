@@ -31,6 +31,8 @@ STANDALONES = \
 	utils/sortByCol \
 	utils/splitContains \
 	utils/stripstr \
+	utils/lstripstr \
+	utils/rstripstr \
 	utils/te \
 	utils/teq
 
