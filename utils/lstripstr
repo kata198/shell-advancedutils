@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -eq 0 ];
+then
+    STR="$(readall)"
+else
+    STR="$@"
+fi
+
+echo "${STR}" | sed -e 's/^[ \t]*//g'
