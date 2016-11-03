@@ -19,14 +19,20 @@ EXECUTABLES = \
 STANDALONES = \
 	utils/aslist \
 	utils/bgtask \
+	utils/cout \
 	utils/gtmp \
+	utils/isempty \
 	utils/nmtmp \
 	utils/noecho \
+	utils/prefixitems \
 	utils/prompt \
 	utils/readall \
 	utils/sau-activate.sh \
 	utils/sortByCol \
-	utils/splitContains
+	utils/splitContains \
+	utils/stripstr \
+	utils/te \
+	utils/teq
 
 PROFILE_SCRIPTS=utils/sau-activate.sh
 
