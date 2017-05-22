@@ -1,0 +1,54 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 expandtab :
+
+# dirnamem - Get parent directory name at a specific level
+#
+#  Usage: dirnamem [directory] [N levels]
+#
+#   First line of output is the directory name after N parent levels,
+#    second line is the base name of the directory at that level
+
+echoerr() {
+    echo "$@" >&2
+}
+
+usage() {
+    echoerr "Usage: dirnamem [directory] [N levels]"
+    echoerr "  Discovers information about the Nth parent of a given directory"
+    echoerr;
+    echoerr "Outputs two lines:"
+    echboer "  The first line is the path N levels up"
+    echoerr "  The second line is the basename of the directory N levels up (i.e. last entry popped)"
+    echoerr;
+}
+
+if [[ $# -ne 2 ]] || ( splitContains '--help' ' ' "$@" );
+then
+    usage;
+    exit 1;
+fi
+
+DIRNAME="${1}"
+N_DIR="${2}"
+
+if ( ! isdigit "${N_DIR}" ) || [[ "${N_DIR}" -lt 0 ]];
+then
+    echo "Second argument is not a valid integer >= 0"
+fi
+
+if [[ ${N_DIR} = 0 ]];
+then
+    echo "${DIRNAME}"
+    echo;
+else
+    NEW_DIRNAME="${DIRNAME}"
+    for i in `seq ${N_DIR}`;
+    do
+        BASENAME="$(basename "${NEW_DIRNAME}")"
+        NEW_DIRNAME="$(dirname "${NEW_DIRNAME}")"
+    done
+
+    echo "${NEW_DIRNAME}"
+    echo "${BASENAME}"
+fi
+
