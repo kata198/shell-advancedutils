@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# echoerr - Echo to stderr
+
+echo "$@" >&2
