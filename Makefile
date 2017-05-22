@@ -14,7 +14,8 @@ EXECUTABLES = \
 	bin/isin \
 	bin/isin_nocase \
 	bin/notin \
-	bin/notin_nocase
+	bin/notin_nocase \
+	bin/listContains
 
 STANDALONES = \
 	utils/aslist \
@@ -81,6 +82,8 @@ bin/isin_nocase: objects/isin_nocase.o
 bin/notin_nocase: objects/notin_nocase.o
 	gcc ${LDFLAGS} objects/notin_nocase.o -o bin/notin_nocase
 
+bin/listContains: objects/listContains.o
+	gcc ${LDFLAGS} objects/listContains.o -o bin/listContains
 
 objects/isin.o: src/isin.c
 	gcc -c ${CFLAGS} -D PROG_ISIN src/isin.c -o objects/isin.o
@@ -94,3 +97,5 @@ objects/isin_nocase.o: src/isin.c
 objects/notin_nocase.o: src/notin.c
 	gcc -c ${CFLAGS} -D PROG_NOTIN -D CASE_INSENSITIVE src/notin.c -o objects/notin_nocase.o
 
+objects/listContains.o : src/listContains.c
+	gcc -c ${CFLAGS} src/listContains.c -o objects/listContains.o
