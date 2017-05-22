@@ -1,6 +1,3 @@
 *~
 objects/*.o
-bin/isin
-bin/notin
-bin/isin_nocase
-bin/notin_nocase
+bin/
