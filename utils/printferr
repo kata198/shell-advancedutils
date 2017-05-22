@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# printferr - Printf to stderr
+
+printf "$@" >&2
