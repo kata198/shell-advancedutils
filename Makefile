@@ -20,17 +20,23 @@ STANDALONES = \
 	utils/aslist \
 	utils/bgtask \
 	utils/cout \
+	utils/dirnamem \
+	utils/echoerr \
 	utils/gtmp \
 	utils/isempty \
+	utils/isdigit \
+	utils/isfloat \
 	utils/nmtmp \
 	utils/noecho \
 	utils/prefixitems \
 	utils/prompt \
+	utils/printferr \
 	utils/readall \
 	utils/sau-activate.sh \
 	utils/sortByCol \
 	utils/splitContains \
 	utils/stripstr \
+	utils/strlen \
 	utils/lstripstr \
 	utils/rstripstr \
 	utils/te \
