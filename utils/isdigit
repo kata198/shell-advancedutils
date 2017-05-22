@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# isdigit - Check if a given argument is an integer
+
+if [[ $# -eq 0 ]];
+then
+    echo "Usage: isdigit [potential number]" >&2
+    exit 1;
+fi
+
+
+if [[ $# -gt 1 ]];
+then
+    exit 1;
+fi
+
+if ( echo "$1" | grep -q '^[0-9][0-9]*$' );
+then
+    exit 0;
+else
+    exit 1;
+fi
+
