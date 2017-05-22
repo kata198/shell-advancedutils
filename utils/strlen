@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# strlen - Returns the length of a string.
+#  If string is one line and ends with a newline, the last \n is not counted.
+#  All other characters (including newlines) are counted.
+
+
+if [[ $# -gt 0 ]];
+then
+    printf "%s" "$@" | wc -c
+else
+    INPUT="$(cat --)"
+
+    # Echo acts the same way, if ends with newline prints that, otherwise inserts newline
+    #  ( unless '-n' is given )
+    COUNT="$(echo "${INPUT}" | wc -c)"
+    echo $(( ${COUNT} - 1 ))
+fi
+
