@@ -12,6 +12,8 @@
 #ifndef __ALLOCATED_STR_H
 #define __ALLOCATED_STR_H
 
+#include <sys/types.h>
+
 #ifdef ALLOCATED_STR_STATIC_INCLUDE
   #define STATIC_INLINE_WHEN_STATIC static inline
 #else

@@ -85,10 +85,10 @@ bin/notin_nocase: objects/notin_nocase.o
 bin/listContains: objects/listContains.o
 	gcc ${LDFLAGS} objects/listContains.o -o bin/listContains
 
-objects/isin.o: src/isin.c
+objects/isin.o: src/isin.c src/allocated_str.c src/allocated_str.h
 	gcc -c ${CFLAGS} -D PROG_ISIN src/isin.c -o objects/isin.o
 
-objects/notin.o: src/notin.c
+objects/notin.o: src/notin.c src/allocated_str.c src/allocated_str.h
 	gcc -c ${CFLAGS} -D PROG_NOTIN src/notin.c -o objects/notin.o
 
 objects/isin_nocase.o: src/isin.c

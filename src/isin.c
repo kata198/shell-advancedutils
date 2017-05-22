@@ -25,6 +25,12 @@
 #include <string.h>
 #include <errno.h>
 
+#include "common.h"
+
+#define ALLOCATED_STR_STATIC_INCLUDE
+#include "allocated_str.h"
+
+
 /* We start with 4096 bytes on the stack. If stdin goes beyond that, allocate the max arg length. */
 #include <linux/limits.h>
 #ifndef ARG_MAX
@@ -32,7 +38,7 @@
 #endif
 
 
-#define BUFFER_SIZE 4096
+#define INITIAL_BUFFER_SIZE 4096
 
 /* isin and notin are same source. Compilation is controlled by presence of "PROG_ISIN" or "PROG_NOTIN" being defined. */
 
@@ -56,99 +62,110 @@
     #define my_strcmp strcasecmp
 #endif
 
+static AllocatedStr *readData(void)
+{
+    static AllocatedStr *aStr;
 
+    size_t spaceRemaining;
+    size_t totalReadBytes;
+    size_t numReadBytes;
+
+    aStr = astr_new(INITIAL_BUFFER_SIZE, 2);
+
+    spaceRemaining = ASTR_SIZE(aStr) - 1;
+    totalReadBytes = 0;
+
+    /* I know &x[0] is meaningless */
+    do {
+        errno = 0;
+
+        numReadBytes = fread(ASTR_VALUE(aStr), 1, spaceRemaining, stdin);
+        totalReadBytes += numReadBytes;
+        if(numReadBytes == 0) {
+        /* No more data or error on stream */
+                if( unlikely(errno != 0) ) {
+                        fprintf(stderr, PROG_NAME_STR ": Error %d reading from stdin: %s\n", errno, strerror(errno));
+                        /* Return an error or partial stream? */
+                        if ( totalReadBytes > 0 )
+                            return aStr;
+                        astr_free(aStr);
+                        return NULL;
+                }
+        }
+
+        if ( feof(stdin) )
+            break;
+
+        /* We may not have read all the data we requested, if being piped.
+         *   So be explicit */
+        if ( spaceRemaining <= 0 )
+        {
+            astr_grow(aStr, 1);
+            spaceRemaining -= ASTR_SIZE(aStr) - totalReadBytes;
+        }
+
+    } while(1);
+
+    /* Strip final newline if present */
+    if ( ASTR_VALUE(aStr)[totalReadBytes - 1] == '\n' )
+        ASTR_VALUE(aStr)[totalReadBytes - 1] = '\0';
+
+    return aStr;
+}
 
 #define EXIT_ERROR -1
 
 int main(int argc, char* argv[])
 {
-    static char stackBuffer[BUFFER_SIZE];
-    char *curPtr;
-    char *startPtr;
-    size_t spaceRemaining;
-    size_t amtRead;
-    unsigned int i;
+    AllocatedStr *inputData;
+    int ret;
+    int i;
+    char *value;
 
-    spaceRemaining = BUFFER_SIZE - 1;
+    ret = -1;
 
-    /* I know &x[0] is meaningless */
-    curPtr = startPtr = &stackBuffer[0];
-    do {
-        errno = 0;
-        amtRead = fread(curPtr, 1, spaceRemaining, stdin);
-        if(amtRead == 0) {
-        /* No more data or error on stream */
-                if(errno != 0) {
-                        fprintf(stderr, PROG_NAME_STR ": Error %d on input stream ( %s )\n", errno, strerror(errno));
-                        /*exit(EXIT_ERROR);*/
-                        return EXIT_ERROR;
-                }
-                break;
-        }
-        curPtr = &curPtr[amtRead];
-        spaceRemaining -= amtRead;
-        if ( spaceRemaining <= 0 )
-        {
-                if ( stackBuffer != startPtr ) {
-                        /* If we have already moved from stack to heap, */
-                        /*   at this point, more stdin is fed that args can hold, so this obviously is not a match. But print warning to stderr. */
-                        #ifdef PROG_ISIN
-                            fprintf(stderr, "More than %u bytes of data have been fed to '" PROG_NAME_STR "' on stdin. Argument max is %u bytes. Returning false.\n", ARG_MAX, ARG_MAX);
-                            /*exit(1);*/
-                            return 1; 
-                        #else
-                            fprintf(stderr, "More than %u bytes of data have been fed to '" PROG_NAME_STR "' on stdin. Argument max is %u bytes. Returning true.\n", ARG_MAX, ARG_MAX);
-                            /*exit(0);*/
-                            return 0; 
-                        #endif
-                }
-                char *tmp = malloc(ARG_MAX + 1);
-                strcpy(tmp, startPtr);
-                startPtr = tmp;
-                curPtr = &startPtr[BUFFER_SIZE-1];
-                spaceRemaining = ARG_MAX - BUFFER_SIZE;
-        }
-        
-    } while(1);
 
-    /* Strip final newline if present */
-    i = strlen(startPtr);
-    if ( i > 0 ) {
-        if ( startPtr[i-1] == '\n' ) {
-            if ( i > 2 && startPtr[i-2] == '\r' )
-                startPtr[i-2] = '\0';
-            else
-                startPtr[i-1] = '\0';
-        }
+    inputData = readData();
+    if ( unlikely( inputData == NULL ) )
+    {
+        fputs("Stream errored before outputting data. Exiting with error code 130", stderr);
+        return 130;
     }
+    value = ASTR_VALUE(inputData);
        
     for(i=1; i < argc; i++) {
         #ifdef PROG_ISIN
-        if ( my_strcmp(startPtr, argv[i]) == 0 ) {
+        if ( my_strcmp(argv[i], value) == 0 ) {
 
             /* Found our match! */
 
-            /*exit(0);*/
-            return 0;
+            ret = 0;
+            break;
         }
         #else
-        if ( my_strcmp(startPtr, argv[i]) == 0 ) {
+        if ( my_strcmp(argv[i], value) == 0 ) {
 
             /* Found a match, return false! */
 
-            /*exit(1);*/
-            return 1;
+            ret = 1;
+            break;
         }
         #endif
 
     }
     /* No matches */
 
-    /*exit(1);*/
+    if ( ret == -1 )
+    {
     #ifdef PROG_ISIN
-        return 1;
+        ret = 1;
     #else
-        return 0;
+        ret = 0;
     #endif
+    }
 
+/*cleanup_and_exit:*/
+    
+    astr_free(inputData);
+    return ret;
 }
