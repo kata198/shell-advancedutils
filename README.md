@@ -9,6 +9,8 @@ Conditional Evaluation
 
 The following commands add more advanced testing facilities, and are expected to be use in conditionals (if).
 
+For the isin/notin series of commands, the return value is "0" if the statement is true, "1" if not true, or a value > 127 if an error occured that prevented the test from being performed.
+
 
 **isin**
 
