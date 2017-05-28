@@ -1,7 +1,7 @@
 CFLAGS ?= -O3 -ffast-math -s
 CFLAGS := ${CFLAGS} -Wall -pedantic
 CC ?= gcc
-LDFLAGS ?= -O1 -s
+LDFLAGS ?= -Wl,-O1,--sort-common,--as-needed,-z,relro -Wl,-z,combreloc -s
 HOME ?= ${HOME}
 PREFIX ?= /usr
 ETCDIR ?= /etc
