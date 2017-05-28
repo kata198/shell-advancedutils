@@ -115,12 +115,34 @@ static AllocatedStr *readData(void)
 
 #define EXIT_ERROR -1
 
+void printUsage(void)
+{
+    fputs("Usage:  " PROG_NAME_STR  " [test_val1] ([test_val..N])\n  Tests input from stdin (minus trailing newline) against a list of values,\n   given as commandline arguments.\n\n", stderr);
+    #ifdef PROG_ISIN
+      fputs("isin  - returns 0 (true) if string read from stdin matches one of the provided arguments.\n", stderr);
+      fputs("      * returns 1 (false) if string read from stdin does NOT match one of the provided arguments.\n", stderr);
+      fputs("      X returns > 127 if an error was encountered that prevented a valid test from occuring.\n", stderr);
+    #else
+      fputs("notin - returns 0 (true) if string read from stdin does NOT match one of the provided arguments.\n", stderr);
+      fputs("      * returns 1 (false) if string read from stdin matches one of the provided arguments.\n", stderr);
+      fputs("      X returns > 127 if an error was encountered that prevented a valid test from occuring.\n", stderr);
+    #endif
+    fputs("\nExample:\techo \"$arg\" | "  PROG_NAME_STR  "  '-s' '--something'\n\n", stderr);
+}
+    
+
 int main(int argc, char* argv[])
 {
     AllocatedStr *inputData;
     int ret;
     int i;
     char *value;
+
+    if ( argc < 2 )
+    {
+        printUsage();
+        return 128;
+    }
 
     ret = -1;
 
@@ -135,21 +157,21 @@ int main(int argc, char* argv[])
        
     for(i=1; i < argc; i++) {
         #ifdef PROG_ISIN
-        if ( my_strcmp(argv[i], value) == 0 ) {
+          if ( my_strcmp(argv[i], value) == 0 ) {
 
-            /* Found our match! */
+              /* Found our match! */
 
-            ret = 0;
-            break;
-        }
+              ret = 0;
+              break;
+          }
         #else
-        if ( my_strcmp(argv[i], value) == 0 ) {
+          if ( my_strcmp(argv[i], value) == 0 ) {
 
-            /* Found a match, return false! */
+              /* Found a match, return false! */
 
-            ret = 1;
-            break;
-        }
+              ret = 1;
+              break;
+          }
         #endif
 
     }
