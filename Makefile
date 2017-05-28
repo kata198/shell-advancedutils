@@ -15,7 +15,8 @@ EXECUTABLES = \
 	bin/isin_nocase \
 	bin/notin \
 	bin/notin_nocase \
-	bin/listContains
+	bin/listContains \
+	bin/strerror
 
 STANDALONES = \
 	utils/aslist \
@@ -69,12 +70,16 @@ install: ${EXECUTABLES}
 		echo -e "\n\033[1mCould not install to ${PROFILE_DIR}. Please try again as root, otherwise you must explicitly source ${BINDIR}/`basename ${PROFILE_SCRIPTS}` for some advanced shell util functions. \033[0m \033[91m" >&2
 	@ echo -e "\033[0m" >&2
 
+
+#################################
+###  Executables
+######################
+
 bin/isin: objects/isin.o
 	gcc ${LDFLAGS} objects/isin.o -o bin/isin
 
 bin/notin: objects/notin.o
 	gcc ${LDFLAGS} objects/notin.o -o bin/notin
-
 
 bin/isin_nocase: objects/isin_nocase.o
 	gcc ${LDFLAGS} objects/isin_nocase.o -o bin/isin_nocase
@@ -84,6 +89,14 @@ bin/notin_nocase: objects/notin_nocase.o
 
 bin/listContains: objects/listContains.o
 	gcc ${LDFLAGS} objects/listContains.o -o bin/listContains
+
+bin/strerror: objects/strerror.o
+	gcc ${LDFLAGS} objects/strerror.o -o bin/strerror
+
+
+#################################
+###  Objects
+######################
 
 objects/isin.o: src/isin.c src/allocated_str.c src/allocated_str.h
 	gcc -c ${CFLAGS} -D PROG_ISIN src/isin.c -o objects/isin.o
@@ -99,3 +112,6 @@ objects/notin_nocase.o: src/notin.c
 
 objects/listContains.o : src/listContains.c
 	gcc -c ${CFLAGS} src/listContains.c -o objects/listContains.o
+
+objects/strerror.o : src/strerror.c
+	gcc -c ${CFLAGS} src/strerror.c -o objects/strerror.o
