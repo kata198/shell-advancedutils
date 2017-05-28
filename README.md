@@ -64,6 +64,45 @@ Here is a benchmark on an unloaded system, showing 42x+ (.001s is rounded up) sp
 	Result: 0
 
 
+Error Messages
+==============
+
+Ever get a return code from an application, like 52, and not know what the hell that means?
+
+Well, *strerror* is the solution! It will take a standard POSIX exit code, and print the associated message!
+
+NOTE: Applications are free to define and use their own exit codes. Standard system utils should follow the POSIX standards, however.
+
+Example:
+
+	[tim ]$ strerror 52
+	52 - Invalid exchange
+
+	[tim ]$ strerror 1
+	1 - Operation not permitted
+
+	[tim ]$ strerror 4
+	4 - Interrupted system call
+
+	[tim ]$ strerror 22
+	22 - Invalid argument
+
+	[tim ]$ strerror 0
+	0 - Success
+
+
+This is very useful for things like:
+
+	tar -cf "mytar.tar" "${FILES}"
+	RET=$?
+
+	if [ $RET -ne 0 ];
+	then
+		echo "Failed to create 'mytar.tar'. Error: $(strerror ${RET})" >&2
+	fi
+
+
+
 Other Productivity Tools
 ========================
 
