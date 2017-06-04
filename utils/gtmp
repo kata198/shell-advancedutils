@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# gtmp - Get the temporary file name as created prior
+# gtmp - Get the last temporary name created with nmtmp based on key
 
 MYTMPDIR="/tmp/shnmtmp-`whoami`";
 
@@ -12,5 +12,13 @@ then
 fi
 
 NAME="$1"
-echo $MYTMPDIR/.stmp-${NAME}-*
+shopt -s nullglob
+
+RESULTS="$(echo $MYTMPDIR/.stmp-${NAME}-*)"
+if [ -z "${RESULTS}" ];
+then
+    exit 2;
+fi
+
+ls -1t $(echo $MYTMPDIR/.stmp-${NAME}-*) | head -n1
 
