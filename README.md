@@ -4,6 +4,14 @@ Advanced commands to extend SH/Bash shell scripting into a more powerful languag
 These commands are very fast, and simply replace really advanced, ugly, and errorprone chaining of commands with simple keywords that read easily.
 
 
+Pacman Package
+--------------
+
+You can find the pacman package at https://github.com/kata198/shell-advancedutils-pkg
+
+Look under Releases for pre-made packages.
+
+
 Full List of Programs
 ---------------------
 
