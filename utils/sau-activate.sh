@@ -154,3 +154,55 @@ else
     echo `readall`
 fi
 }
+
+
+######
+### die - Exit, with an optional exit code and
+##         a message printed to stderr.
+##
+##    ARGS -
+##          If > 1 arg, and first arg is a digit,
+##            sets error code to first arg and
+##            remainder becomes message.
+##
+##            If first arg is not a number, the
+##              default ( 1 ) is used as exit code,
+##              and first arg becomes part of message.
+##
+##          Remainder of args are the message to print
+##
+##       NOTE:  To use a number as your message,
+##                (for some reason...), pass first
+##                arg as empty string
+die() {
+    EXIT_CODE=1
+
+    if [ $# -eq 0 ];
+    then
+        exit ${EXIT_CODE}
+    fi
+
+    # If more than one arg and first arg is digit, treat as exit code
+    if [ "$#" -gt 1 ] && ( echo "${1}" | grep -qE "^[0-9][0-9]*$" );
+    then
+        EXIT_CODE="${1}"
+        shift;
+    fi
+
+    # If first arg is empty string, they want to use a number
+    #   as the exit message (why?). So strip it so we don't get
+    #   a space.
+    if [ -z "$1" ];
+    then
+        shift;
+    fi
+
+    MSG="$@"
+
+    printf "\n%s\n\n" "${MSG}" >&2
+
+    exit ${EXIT_CODE}
+}
+
+
+# vim: set ts=4 sw=4 expandtab
