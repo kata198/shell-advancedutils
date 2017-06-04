@@ -1,9 +1,9 @@
 #!/bin/bash
 # vim: set ts=4 sw=4 expandtab :
 
-# dirnamem - Get parent directory name at a specific level
+# dirnamen - Get parent directory name at a specific level
 #
-#  Usage: dirnamem [directory] [N levels]
+#  Usage: dirnamen [directory] [N levels]
 #
 #   First line of output is the directory name after N parent levels,
 #    second line is the base name of the directory at that level
@@ -13,11 +13,11 @@ echoerr() {
 }
 
 usage() {
-    echoerr "Usage: dirnamem [directory] [N levels]"
+    echoerr "Usage: dirnamen [directory] [N levels]"
     echoerr "  Discovers information about the Nth parent of a given directory"
     echoerr;
     echoerr "Outputs two lines:"
-    echboer "  The first line is the path N levels up"
+    echoerr "  The first line is the path N levels up"
     echoerr "  The second line is the basename of the directory N levels up (i.e. last entry popped)"
     echoerr;
 }

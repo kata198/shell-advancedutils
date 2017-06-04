@@ -22,7 +22,7 @@ STANDALONES = \
 	utils/aslist \
 	utils/bgtask \
 	utils/cout \
-	utils/dirnamem \
+	utils/dirnamen \
 	utils/echoerr \
 	utils/gtmp \
 	utils/isempty \
