@@ -20,7 +20,7 @@ then
 else
 	TIMEOUT=$2
 fi
-TMP_NAM=$(mktemp  $MYTMPDIR/.stmp-${NAME}-XXX)
+TMP_NAM=$(mktemp  $MYTMPDIR/.stmp-${NAME}-XXXXX)
 (sleep $TIMEOUT && rm -f $TMP_NAM) >/dev/null  2>/dev/null &
 echo $TMP_NAM
 
