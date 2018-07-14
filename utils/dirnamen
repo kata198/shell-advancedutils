@@ -1,5 +1,29 @@
 #!/bin/bash
 # vim: set ts=4 sw=4 expandtab :
+#########################################
+#
+#  dirnamen [directory] [N(#) levels] - prints the parent directory N levels up.
+#
+#     This program is part of shell-advancedutils ( https://github.com/kata198/shell-advancedutils )
+#       Copyright (c) 2016, 2017, 2018 Timothy Savannah All Rights Reserved
+#       Licensed under the terms of the GNU General Public License 2.1, or the license found
+#       at https://raw.githubusercontent.com/kata198/shell-advancedutils/master/LICENSE
+#
+#  Usage: dirnamen (Option) [command]
+#
+#   Options:
+#
+#     -v  or --verbose   - Verbose mode. Do not redirect stdout to /dev/null. Default is to be silent.
+#
+#     -q  or --quiet  (Default) - Quiet mode (The default). Redirects output to /dev/null
+#
+#  Example:
+#   [@]$ bgtask updatedb # Run updatedb as a background task
+#   [@]$ bgtask find . -exec chmod g+w '{}' ';' # Add group-write perms to all files/dirs sub to current
+#   [@]$ bgtask -v find . -type f > files.lst # In the background generate a list of all files at "files.lst"
+#
+#
+###################################################################
 
 # dirnamen - Get parent directory name at a specific level
 #
@@ -28,7 +52,7 @@ then
     exit 1;
 fi
 
-DIRNAME="${1}"
+DIRNAME="$(realpath ${1})"
 N_DIR="${2}"
 
 if ( ! isdigit "${N_DIR}" ) || [[ "${N_DIR}" -lt 0 ]];
