@@ -43,9 +43,10 @@ static void printUsage(void)
 {
     fputs( \
 "Usage:  strerror [exit code]\n" \
-"   Prints the corrosponding POSIX-defined message for a given exit code ( $? ).\n\n" \
-\
-"NOTE: Just because a program returns a code, does NOT mean the code matches the standard meaning.\n" \
+" Prints the corrosponding POSIX-defined message for a given exit code ( $? ).\n\n", stderr);
+
+    fputs("  Options:\n\n     --help or --sau-help\t\tPrint this message.\n     --version or --sau-version\t\tPrint version and license information.\n\n", stderr);
+    fputs("NOTE: Just because a program returns a code, does NOT mean the code matches the standard meaning.\n" \
 "Programs are free to define their own exit codes and meanings.\n\n" \
 \
 "Standard utils are, however, likely to use the conventional exit codes.\n\n"
@@ -53,10 +54,40 @@ static void printUsage(void)
 
 }
 
+static void printVersion(void)
+{
+    printf("strerror version %s\n%s\n\n", SHELL_ADVANCED_UTILS_VERSION, SHELL_ADVANCED_UTILS_COPYRIGHT);
+}
+
 int main(int argc, char* argv[])
 {
     int exitCode;
-    char *errStr;
+    static char *errStr;
+    static int i;
+    static int varLen;
+
+    /* scan args for --help / --sau-help or --version / --sau-version 
+        We support the --sau- prefixes to be compatible with isin/notin
+    */
+    for( i=1; i < argc; i++ )
+    {
+        varLen = strlen(argv[i]);
+
+        if( (varLen == 6 && strncmp("--help", argv[i], 6) == 0) ||
+               (varLen == 10 && strncmp("--sau-help", argv[i], 10) == 0 ) 
+           )
+        {
+            printUsage();
+            return 0;
+        }
+        else if( (varLen == 9 && strncmp("--version", argv[i], 9) == 0) ||
+               (varLen == 13 && strncmp("--sau-version", argv[i], 13) == 0) 
+           )
+        {
+            printVersion();
+            return 0;
+        }
+    }
 
 
     if ( unlikely( argc != 2 ) )
