@@ -1,4 +1,23 @@
 #!/usr/bin/python3 -u
+#########################################
+#
+#  cout - Collate before OUTput
+#            Pipe a command to this and will will read from the stream until
+#             the stream is closed / source application terminates.
+#
+#     This program is part of shell-advancedutils ( https://github.com/kata198/shell-advancedutils )
+#       Copyright (c) 2016, 2017, 2018 Timothy Savannah All Rights Reserved
+#       Licensed under the terms of the GNU General Public License 2.1, or the license found
+#       at https://raw.githubusercontent.com/kata198/shell-advancedutils/master/LICENSE
+#
+#  Usage: command | cout [output filename]
+#
+#  Example:
+#	[@]$ find . -type f | cout files.lst
+#
+#
+###################################################################  
+
 
 import sys
 
