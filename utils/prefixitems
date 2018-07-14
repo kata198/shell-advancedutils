@@ -1,18 +1,37 @@
 #!/usr/bin/env python3
-# vim: set ts=4 sw=4 st=4 expandtab:
 
 import os
 import sys
 
 def printUsage():
-    sys.stderr.write('Usage: prefixitems (-f) (-l) [prefix] [items...]\n  Prefix all items with then given prefix.\nOptions:\n If -f is provided, items will be one or more filenames.\n If -l is provided, items will be printed one per line.\n')
+    sys.stderr.write('''Usage: prefixitems (-f) (-l) [prefix] [items...]
+ Prefix all items with then given prefix.
+
+  Options:
+  
+    --help or --sau-help\t- Print this message
+
+  Modes:
+
+    -f      \t\t- If provided, items will be treated as one or more filenames
+    -l      \t\t- If provided, items will be printed one per line
+
+''')
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1 or '--help' in sys.argv:
+
+    args = sys.argv[1:]
+
+    if not args:
         printUsage()
         sys.exit(1)
 
-    args = sys.argv[1:]
+    helpArgs = [arg for arg in args if arg in ('--help', '--sau-help')]
+    if helpArgs:
+        printUsage()
+        sys.exit(0)
+    del helpArgs
+
 
     if '-f' in args:
         args.remove('-f')
@@ -51,6 +70,3 @@ if __name__ == '__main__':
 
     sys.stdout.write(joinChar.join([prefix + item for item in items]))
     sys.stdout.write('\n')
-
-
-# vim: set ts=4 sw=4 st=4 expandtab:
