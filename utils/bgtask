@@ -1,8 +1,46 @@
+#!/bin/bash
+#########################################
+#
+#  bgtask - Wrapper which will run a given command and arguments in the background
+#            stdout and stderr are both directed to /dev/null
+#
+#     This program is part of shell-advancedutils ( https://github.com/kata198/shell-advancedutils )
+#       Copyright (c) 2016, 2017, 2018 Timothy Savannah All Rights Reserved
+#       Licensed under the terms of the GNU General Public License 2.1, or the license found
+#       at https://raw.githubusercontent.com/kata198/shell-advancedutils/master/LICENSE
+#
+#  Usage: bgtask (Option) [command]
+#
+#   Options:
+#
+#     -v  or --verbose   - Verbose mode. Do not redirect stdout to /dev/null. Default is to be silent.
+#
+#     -q  or --quiet  (Default) - Quiet mode (The default). Redirects output to /dev/null
+#
+#  Example:
+#   [@]$ bgtask updatedb # Run updatedb as a background task
+#   [@]$ bgtask find . -exec chmod g+w '{}' ';' # Add group-write perms to all files/dirs sub to current
+#   [@]$ bgtask -v find . -type f > files.lst # In the background generate a list of all files at "files.lst"
+#
+#
+###################################################################
 
-if [ "$1" = "-v" ];
+_QUIET_MODE="true"
+
+if [ "$1" = "-v" -o "$1" = "--verbose" ];
 then
-    shift
-    exec "$@" 2>&1 &
-else
-    exec "$@" >/dev/null 2>&1 &
+    _QUIET_MODE="false"
+    shift # Strip first arg
+elif [ "$1" = "-q" -o "$1" = "--quiet" ];
+then
+    _QUIET_MODE="true"
+    shift # Strip first arg
 fi
+
+if [ "${_QUIET_MODE}" = "true" ];
+then
+    exec "$@" >/dev/null 2>&1 &
+else
+    exec "$@" 2>&1 &
+fi
+
