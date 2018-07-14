@@ -115,9 +115,10 @@ static AllocatedStr *readData(void)
 
 #define EXIT_ERROR -1
 
-void printUsage(void)
+static void printUsage(void)
 {
     fputs("Usage:  " PROG_NAME_STR  " [test_val1] ([test_val..N])\n  Tests input from stdin (minus trailing newline) against a list of values,\n   given as commandline arguments.\n\n", stderr);
+    fputs("  Options:\n\n     --sau-help\t\tPrint this message.\n     --sau-version\t\tPrint version and license information.\n\n", stderr);
     #ifdef PROG_ISIN
       fputs("isin  - returns 0 (true) if string read from stdin matches one of the provided arguments.\n", stderr);
       fputs("      * returns 1 (false) if string read from stdin does NOT match one of the provided arguments.\n", stderr);
@@ -129,19 +130,38 @@ void printUsage(void)
     #endif
     fputs("\nExample:\techo \"$arg\" | "  PROG_NAME_STR  "  '-s' '--something'\n\n", stderr);
 }
-    
+
+static void printVersion(void)
+{
+    printf("%s version %s\n%s\n\n", PROG_NAME_STR, SHELL_ADVANCED_UTILS_VERSION, SHELL_ADVANCED_UTILS_COPYRIGHT);
+}
 
 int main(int argc, char* argv[])
 {
-    AllocatedStr *inputData;
+    static AllocatedStr *inputData;
     int ret;
-    int i;
-    char *value;
+    static int i;
+    static char *value;
 
     if ( argc < 2 )
     {
         printUsage();
         return 128;
+    }
+
+    
+    for( i=1; i < argc; i++ )
+    {
+        if( strncmp("--sau-help", argv[i], 10) == 0 )
+        {
+            printUsage();
+            return 0;
+        }
+        else if( strncmp("--sau-version", argv[i], 13) == 0 )
+        {
+            printVersion();
+            return 0;
+        }
     }
 
     ret = -1;
