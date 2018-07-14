@@ -98,20 +98,21 @@ bin/strerror: objects/strerror.o
 ###  Objects
 ######################
 
-objects/isin.o: src/isin.c src/allocated_str.c src/allocated_str.h
+objects/isin.o: src/isin.c src/allocated_str.c src/allocated_str.h src/common.h
 	gcc -c ${CFLAGS} -D PROG_ISIN src/isin.c -o objects/isin.o
 
-objects/notin.o: src/notin.c src/allocated_str.c src/allocated_str.h
+objects/notin.o: src/notin.c src/allocated_str.c src/allocated_str.h src/common.h
 	gcc -c ${CFLAGS} -D PROG_NOTIN src/notin.c -o objects/notin.o
 
-objects/isin_nocase.o: src/isin.c
+objects/isin_nocase.o: src/isin.c src/common.h
 	gcc -c ${CFLAGS} -D PROG_ISIN -D CASE_INSENSITIVE src/isin.c -o objects/isin_nocase.o
 
-objects/notin_nocase.o: src/notin.c
+objects/notin_nocase.o: src/notin.c src/common.h
 	gcc -c ${CFLAGS} -D PROG_NOTIN -D CASE_INSENSITIVE src/notin.c -o objects/notin_nocase.o
 
-objects/listContains.o : src/listContains.c
+objects/listContains.o : src/listContains.c src/common.h
 	gcc -c ${CFLAGS} src/listContains.c -o objects/listContains.o
 
-objects/strerror.o : src/strerror.c
+objects/strerror.o : src/strerror.c src/common.h
 	gcc -c ${CFLAGS} src/strerror.c -o objects/strerror.o
+
