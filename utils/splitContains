@@ -13,22 +13,27 @@ Status code 0 is returned when found, 1 when not found, unless --print is specif
 
     Options:
 
-      --%print         Print "true"/"false" instead of using exit code
+      --%help or --%sau-help \t\t- Show this message
 
-      --%nocase        Ignore case in comparison
+      --%print  \t\t\t- Print "true"/"false" instead of using exit code
+
+      --%nocase \t\t\t- Ignore case in comparison
 ''')
 
 if __name__ == '__main__':
-    if '--%help' in sys.argv:
+    args = sys.argv[1:]
+
+    helpArgs = [arg for arg in args if arg in ('--%help', '--%sau-help')]
+    if helpArgs:
         printUsage()
         sys.exit(0)
+    del helpArgs
 
-    if len(sys.argv) < 4:
+    if len(args) < 3:
         sys.stderr.write('Not enough arguments.\n')
         printUsage()
         sys.exit(1)
 
-    args = sys.argv[1:]
     if '--%print' in args:
         retStatusCode = False
         args.remove('--%print')

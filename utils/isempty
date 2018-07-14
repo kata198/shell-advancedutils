@@ -20,9 +20,15 @@ if __name__ == '__main__':
     else:
         isPrint = False
 
-    if len(args) != 1 or args[0] == '--help':
+    if len(args) != 1:
         printUsage()
         sys.exit(1)
+
+    helpArgs = [arg for arg in args if arg in ('--help', '--sau-help')]
+    if helpArgs:
+        printUsage()
+        sys.exit(0)
+    del helpArgs
         
     fname = args[0]
 

@@ -22,7 +22,7 @@ usage() {
     echoerr;
 }
 
-if [[ $# -ne 2 ]] || ( splitContains '--help' ' ' "$@" );
+if [[ $# -ne 2 ]] || ( splitContains '--help' ' ' "$@" ) || ( splitContains '--sau-help' ' ' "$@" ) 
 then
     usage;
     exit 1;

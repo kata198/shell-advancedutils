@@ -11,7 +11,7 @@ mkdir -p $MYTMPDIR
 
 DEFAULT_TIMEOUT=60
 
-if [ -z "$1" ] || [ "$1" = "--help" ];
+if [ -z "$1" ] || [ "$1" = "--help" ] || [ "$1" = "--sau-help" ];
 then
 	echo -e "Usage: nmtmp [name] (optional: timeout)\n  Generates a timed temp file that is referenced by 'name'. If timeout is provided, will be automatically removed after that timeout, otherwise default $DEFAULT_TIMEOUT seconds." >&2
 	echo -e "\nUse with gtmp to get the name.\nExample: set_difference seta setb > \`nmtmp setres\`; set_intersect \`gtmp setres\` set3 > seta"

@@ -30,7 +30,7 @@ if __name__ == '__main__':
     for arg in argsOrig:
         if arg in ('-e', '--echo'):
             isEcho = True
-        elif arg == '--help':
+        elif arg in ('--help', '--sau-help'):
             printUsage()
             sys.exit(1)
         elif arg in ('-a', '--append'):

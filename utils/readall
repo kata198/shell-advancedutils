@@ -8,19 +8,26 @@ def printUsage():
     sys.stderr.write('Usage: readall (options)\n  Reads from stdin and outputs on stdout.\n\nUse for input capture in shell scripts\n\n  Options:\n\n    -e\t\tEscape newline,tab,CR instead of doing literals. Like for use with echo -e\n\nExample: X=$(readall)\n')
 
 if __name__ == '__main__':
-    if '--help' in sys.argv:
-        printUsage()
-        sys.exit(0)
-    if len(sys.argv) > 2:
+    
+    args = sys.argv[1:]
+    numArgs = len(args)
+
+    if numArgs > 1:
         printUsage()
         sys.exit(1)
 
+    helpArgs = [arg for arg in args if arg in ('--help', '--sau-help')]
+    if helpArgs:
+        printUsage()
+        sys.exit(0)
+    del helpArgs
+
     doEscape = False
-    if len(sys.argv) == 2:
-        if sys.argv[1] == '-e':
+    if numArgs == 1:
+        if args[0] == '-e':
             doEscape = True
         else:
-            sys.stderr.write('Invalid argument: %s\n\n' %(sys.argv[1],))
+            sys.stderr.write('Invalid argument: %s\n\n' %(args[0],))
             printUsage()
             sys.exit(1)
             

@@ -25,12 +25,18 @@ SORT_TYPE_FLOAT = 3
 
 if __name__ == '__main__':
 
-    if len(sys.argv) == 1 or '--help' in sys.argv:
+    args = sys.argv[1:]
+    if len(args) == 0:
         printUsage()
         sys.exit(1)
 
+    helpArgs = [arg for arg in args if arg in ('--help', '--sau-help')]
+    if helpArgs:
+        printUsage()
+        sys.exit(0)
+    del helpArgs
+
     sortType = SORT_TYPE_STR
-    args = sys.argv[1:]
     args2 = []
     splitBy = None
     sortCol = None
