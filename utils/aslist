@@ -1,4 +1,30 @@
 #!/bin/sh
+#########################################
+#
+#  aslist - Converts the arguments passed into a space-separated list.
+#            This includes newlines.
+#
+#     This program is part of shell-advancedutils ( https://github.com/kata198/shell-advancedutils )
+#       Copyright (c) 2016, 2017, 2018 Timothy Savannah All Rights Reserved
+#       Licensed under the terms of the GNU General Public License 2.1, or the license found
+#       at https://raw.githubusercontent.com/kata198/shell-advancedutils/master/LICENSE
+#
+#  Usage: ARGS="$(echo "$@" | aslist)
+#
+#  Example:
+#	[@]$ ARG1="$(printf "1\n2\n3\n4")"
+#	[@]$ echo "${ARG^C
+#	[@]$ ARG2="$(printf "1\n2\n3\n4" | aslist)"
+#	[@]$ echo "${ARG1}"
+#	1
+#	2
+#	3
+#	4
+#	[@]$ echo "${ARG2}"
+#	1 2 3 4
+#
+#
+###################################################################  
 
 # Converts the arguments to a space-separated list.
 
