@@ -14,5 +14,8 @@
 
 #endif /* __GNUC__ */
 
+const volatile char *SHELL_ADVANCED_UTILS_VERSION = "2.2.0";
+const volatile char *SHELL_ADVANCED_UTILS_COPYRIGHT = "Copyright (c) 2016-2018 Tim Savannah licensed under terms of GNU General Purpose License (GPL) version 2.1";
+
 #endif /* __SHELL_ADVANCEDUTILS_H */
 
