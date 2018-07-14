@@ -1,0 +1,25 @@
+2.2.0 - Jul 14 2018
+
+* Add "--sau-help" and "--sau-version" to "notin", "isin", and "strerror" programs.
+  We use the --sau- prefix so that we continue to support the pattern of arg checking
+   with the common values --help or --version.
+   e.x.
+    for arg in "$@";
+    do
+        if ( echo "${arg}" | isin "--help" "-h" "-?" );
+        then
+            echo "Usage: program [args]"
+            exit 0
+        fi
+    done
+
+* Make a few more things static in the .c files
+
+* Add a version and copyright info as volatile strings in the compiled programs
+
+* Add "common.h" as a dependency to the Makefile for the compiled programs, so that changes will force a recompile
+
+* prefixitems - Clean up the help menu a bunch
+
+* cout - Apparently "#!/usr/bin/env python3 -u" no longer works (update to the env program?) and we require unbuffered mode for that to function. So it is now hard coded to "#!/usr/bin/python3 -u" now. If your path is different you will have to change this. I see no other way to get around this other than to rewrite cout from scratch (and maybe get success?)
+
