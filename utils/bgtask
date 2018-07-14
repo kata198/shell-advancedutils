@@ -1,1 +1,8 @@
-exec "$@" >/dev/null 2>&1 &
+
+if [ "$1" = "-v" ];
+then
+    shift
+    exec "$@" 2>&1 &
+else
+    exec "$@" >/dev/null 2>&1 &
+fi
