@@ -1,3 +1,9 @@
+2.2.1 - ??? ?? ????
+
+* Fix off-by-one error in listContains which would cause issues when 3 arguments are provided (argv[0] needle haystack1)
+
+* Add missing copyright notice to a bunch of files
+
 2.2.0 - Jul 14 2018
 
 * Add "--sau-help" and "--sau-version" to "notin", "isin", and "strerror" programs.
