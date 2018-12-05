@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     unsigned int haystackItems;
     int i;
 
-    if ( argc < 4 )
+    if ( argc < 3 )
     {
         fputs("Not enough arguments...\n\n", stderr);
         usage();
@@ -30,20 +30,20 @@ int main(int argc, char* argv[])
 
     needle = argv[1];
 
-    if ( argc == 4 )
+    if ( argc == 3 )
     {
         haystack = alloca(sizeof(char *) * 1);
-        haystack[0] = argv[3];
+        haystack[0] = argv[2];
         haystackItems = 1;
     }
     else
     {
-        haystackItems = argc - 3;
+        haystackItems = argc - 2;
 
         haystack = alloca(sizeof(char *) * haystackItems);
-        for ( i=3; i < argc; i++ )
+        for ( i=2; i < argc; i++ )
         {
-            haystack[i-3] = argv[i];
+            haystack[i-2] = argv[i];
         }
 
     }
