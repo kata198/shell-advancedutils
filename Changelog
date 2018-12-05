@@ -1,4 +1,4 @@
-2.2.1 - ??? ?? ????
+2.2.1 - Dec 05 2018
 
 * Fix off-by-one error in listContains which would cause issues when 3 arguments are provided (argv[0] needle haystack1)
 
