@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2017 Timothy Savannah All Rights Reserved
  *
- *  Licensed under terms of the LGPLv3
+ *  Licensed under terms of the LGPLv2
  */
 
 #include "common.h"

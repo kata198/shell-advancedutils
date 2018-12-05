@@ -1,5 +1,11 @@
 #!/bin/bash
-# vim: set ts=4 sw=4 expandtab :
+##########################################################################
+# Copyright (c) 2014 - 2017, 2018 Timothy Savannah All Rights Reserved
+#
+#  Licensed under terms of the LGPLv2
+#
+#########################################
+
 #########################################
 #
 #  dirnamen [directory] [N(#) levels] - prints the parent directory N levels up.
@@ -76,3 +82,4 @@ else
     echo "${BASENAME}"
 fi
 
+# vim: set ts=4 sw=4 expandtab :

@@ -1,4 +1,8 @@
-
+/**
+ * Copyright (c) 2014, 2017, 2018 Timothy Savannah All Rights Reserved
+ *
+ *  Licensed under terms of the LGPLv2
+ */
 #include "common.h"
 
 #include <stdio.h>

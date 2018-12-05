@@ -1,4 +1,11 @@
 #!/bin/bash
+##########################################################################
+# Copyright (c) 2014 - 2017, 2018 Timothy Savannah All Rights Reserved
+#
+#  Licensed under terms of the LGPLv2
+#
+#########################################
+
 
 # isfloat - Check if a given argument is an integer
 #   or a float (has a decimal)

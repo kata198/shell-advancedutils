@@ -1,4 +1,5 @@
-/* Copyright (c) 2014-2017 Timothy Savannah All Rights Reserved
+/**
+ * Copyright (c) 2014-2017 Timothy Savannah All Rights Reserved
  *
  * This code and compiled applications are licensed under the terms of GPLv2.
  *
